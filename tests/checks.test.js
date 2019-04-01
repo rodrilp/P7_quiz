@@ -98,11 +98,12 @@ describe("CORE19-07_quiz_mvc_server", function () {
             this.msg_err = error_critical;
             should.not.exist(error_critical);
         } else {
-            const expected = "table";
+            const expected = /table/img;
+            let error_nav;
             [error_nav, resp] = await to(browser.visit(URL));
             this.msg_ok = `Found '${expected}' in ${path_assignment}`;
             this.msg_err = `Couldn't find '${expected}' in ${URL}\n\t\t\tError: >>${error_nav}<<\n\t\t\tReceived: >>${browser.html('body')}<<`;
-            browser.assert.elements(expected, {atLeast: 1});
+            Utils.search(expected, browser.html('body')).should.be.equal(true);
         }
     });
 
@@ -114,6 +115,7 @@ describe("CORE19-07_quiz_mvc_server", function () {
             should.not.exist(error_critical);
         } else {
             const expected = /Question 1/img;
+            let error_nav;
             [error_nav, resp] = await to(browser.visit(URL));
             if (error_nav) {
                 this.msg_err = `Couldn't find '${expected}' in ${URL}\n\t\t\tError: >>${error_nav}<<\n\t\t\tReceived: >>${browser.html('body')}<<`;
@@ -150,6 +152,7 @@ describe("CORE19-07_quiz_mvc_server", function () {
             this.msg_err = error_critical;
             should.not.exist(error_critical);
         } else {
+            let error_nav;
             const expected = 'a[href="/quizzes/3?_method=DELETE"]';
             [error_nav, resp] = await to(browser.visit(URL));
             [error_nav, resp] = await to(browser.click('a[href="/quizzes/3?_method=DELETE"]'));
@@ -167,7 +170,8 @@ describe("CORE19-07_quiz_mvc_server", function () {
             this.msg_err = error_critical;
             should.not.exist(error_critical);
         } else {
-            const expected = /yes/i;
+            const expected = /yes/img;
+            let error_nav;
             [error_nav, resp] = await to(browser.visit(URL));
             if (error_nav) {
                 this.msg_err = `Couldn't find '${expected}' in ${URL}\n\t\t\tError: >>${error_nav}<<\n\t\t\tReceived: >>${browser.html('body')}<<`;
