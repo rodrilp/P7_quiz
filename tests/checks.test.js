@@ -114,7 +114,7 @@ describe("CORE19-07_quiz_mvc_server", function () {
             this.msg_err = error_critical;
             should.not.exist(error_critical);
         } else {
-            const expected = /Question 1/img;
+            const expected = "Question 1";
             let error_nav;
             [error_nav, resp] = await to(browser.visit(URL));
             if (error_nav) {
