@@ -153,14 +153,14 @@ describe("CORE19-07_quiz_mvc_server", function () {
             should.not.exist(error_critical);
         } else {
             let error_nav;
-            const expected = 'a[href="/quizzes/3?_method=DELETE"]';
-            this.msg_ok = `Successfully deleted quiz 3 in ${URL}`;
+            const expected = 'a[href="/quizzes/2?_method=DELETE"]';
+            this.msg_ok = `Successfully deleted quiz 2 in ${URL}`;
             [error_nav, resp] = await to(browser.visit(URL));
-            this.msg_err = `Could not delete quiz 3 clicking '${expected}' in ${URL}\n\t\t\tError: >>${error_nav}`;
-              [error_nav, resp] = await to(browser.click('a[href="/quizzes/3?_method=DELETE"]'));
-            this.msg_err = `Could not delete quiz 3 clicking '${expected}' in ${URL}\n\t\t\tError: >>${error_nav}`;
+            this.msg_err = `Could not delete quiz 2 clicking '${expected}' in ${URL}\n\t\t\tError: >>${error_nav}`;
+            [error_nav, resp] = await to(browser.click('a[href="/quizzes/2?_method=DELETE"]'));
+            this.msg_err = `Could not delete quiz 2 clicking '${expected}' in ${URL}\n\t\t\tError: >>${error_nav}`;
             [error_nav, resp] = await to(browser.visit(URL));
-            this.msg_err = `Could not delete quiz 3 clicking '${expected}' in ${URL}\n\t\t\tError: >>${error_nav}`;
+            this.msg_err = `Could not delete quiz 2 clicking '${expected}' in ${URL}\n\t\t\tError: >>${error_nav}`;
             browser.querySelectorAll(expected).length.should.be.equal(0);
         }
     });
