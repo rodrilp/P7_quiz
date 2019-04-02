@@ -144,13 +144,13 @@ placeholder="Answer" />
         <a href="/quizzes" class="button">Go back</a>
     </body>
     </html>`;
-}
+};
 
 
 // View to show a form to edit the given quiz.
 const editView = (quiz) => {
     // .... introducir código
-}
+};
 
 
 // ========== CONTROLLERs ==========
@@ -186,11 +186,13 @@ const checkController = (req, res, next) => {
 
     Quiz.findByPk(id)   // Sequelize v5 utiliza findByPk en vez de findById (esta deprecado)
         .then(quiz => {
+            if (!quiz) return next(new Error(`Quiz ${id} not found.`));
+
             const msg = (quiz.answer.toLowerCase().trim() ===
                 response.toLowerCase().trim()) ?
                 `Yes, "${response}" is the ${quiz.question}`
                 : `No, "${response}" is not the ${quiz.question}`;
-            return res.send(resultView(id, msg, response));
+            res.send(resultView(id, msg, response));
         })
         .catch(next);
 };
