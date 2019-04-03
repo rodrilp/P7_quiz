@@ -237,6 +237,10 @@ app.get('/quizzes/:id/check', checkController);
 app.get('/quizzes/new', newController);
 app.post('/quizzes', createController);
 
+app.get('/quizzes/:id/edit', editController);
+app.put('/quizzes/:id',updateController);
+app.delete('quizzes/:id',destroyController);
+
 // ..... crear rutas e instalar los MWs para:
 //   GET  /quizzes/:id/edit
 //   PUT  /quizzes/:id
