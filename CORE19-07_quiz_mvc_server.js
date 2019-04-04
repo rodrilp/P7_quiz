@@ -235,11 +235,40 @@ const createController = (req, res, next) => {
 //  GET /quizzes/:id/edit
 const editController = (req, res, next) => {
     // .... introducir código
+    const id = Number(req.params.id);
+    if (Number.isNaN(id)) return next(`id "${req.params.id}" is not a number.`);
+
+    Quiz.findbyPk(id)
+        .then(quiz => {
+            if(quiz){
+                res.send(editView(quiz));
+            }else{
+                next(new Error(`Quiz ${id} no existe`))
+            }
+        });
+
 };
 
 //  PUT /quizzes/:id
 const updateController = (req, res, next) => {
     // .... introducir código
+    const id = Number(req.params.id);
+    if (Number.isNaN(id)) return next(`id "${req.params.id}" is not a number.`);
+
+    Quiz.findbyPk(id)
+        .then(quiz => {
+            if(quiz){
+                let {question, answer} = req.body;
+                quiz.question = question;
+                quiz.answer = answer;
+                quiz.save()
+                    .then(() => {
+                        res.redirect('/quizzes')
+                    });
+            }else {
+                next(new Error(`Quiz ${id} no existe`))
+            }
+        });
 };
 
 // DELETE /quizzes/:id
