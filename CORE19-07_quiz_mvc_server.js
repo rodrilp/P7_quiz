@@ -243,10 +243,12 @@ const editController = (req, res, next) => {
     const id = Number(req.params.id);
     if (Number.isNaN(id)) return next(`id "${req.params.id}" is not a number.`);
 
+    const response = req.query.response || "";
+
     Quiz.findByPk(id)
         .then(quiz => {
             if(quiz){
-                res.send(editView(quiz));
+                res.send(editView(quiz,response));
             }else{
                 next(new Error(`Quiz ${id} no existe`))
             }
@@ -260,20 +262,14 @@ const updateController = (req, res, next) => {
     const id = Number(req.params.id);
     if (Number.isNaN(id)) return next(`id "${req.params.id}" is not a number.`);
 
-    Quiz.findByPk(id)
+    let {question, answer} = req.body;
+
+
+    Quiz.update({question,answer}, {where:{id}})
         .then(quiz => {
-            if(quiz){
-                let {question, answer} = req.body;
-                quiz.question = question;
-                quiz.answer = answer;
-                quiz.save()
-                    .then(() => {
-                        res.redirect('/quizzes')
-                    });
-            }else {
-                next(new Error(`Quiz ${id} no existe`))
-            }
-        });
+            res.redirect('/quizzes')
+        })
+        .catch(next);
 };
 
 // DELETE /quizzes/:id
@@ -282,16 +278,9 @@ const destroyController = (req, res, next) => {
     const id = Number(req.params.id);
     if (Number.isNaN(id)) return next(`id "${req.params.id}" is not a number.`);
 
-    Quiz.findByPk(id)
-        .then(quiz=>{
-            if (quiz){
-                quiz.destroy().then(() => {
-                    res.redirect('/quizzes')
-                });
-            } else {
-                next(new Error(`Quiz ${id} no existe.`))
-            }
-        });
+    Quiz.destroy({where:{id}})
+        .then(quiz => res.redirect('/quizzes'))
+        .catch(next)
 };
 
 
