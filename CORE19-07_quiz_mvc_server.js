@@ -57,24 +57,29 @@ const style = `
 // View to display all the quizzes passed into the quizzes parameter.
 const indexView = quizzes =>
     `<!doctype html>
-    <html>
+    <html xmlns="http://www.w3.org/1999/html">
     <head>
         <meta charset="utf-8">
         <title>P7: Quiz</title>
         ${style}
     </head>
-    <body>
-        <h1>Quizzes</h1>` +
+    <table>
+        <h1>Quizzes</h1>
+        <table class="quizzes>" ` +
     quizzes.map(quiz =>
-        `<div>
-                <a href="/quizzes/${quiz.id}/play">${quiz.question}</a>
-                <a href="/quizzes/${quiz.id}/edit"
-                   class="button">Edit</a>
-                <a href="/quizzes/${quiz.id}?_method=DELETE"
+        `<tr></tr><div>
+                <td><a href="/quizzes/${quiz.id}/play">${quiz.question}</a></td>
+                <td><a href="/quizzes/${quiz.id}/edit"
+                   class="button">Edit</a></td>
+                <td><a href="/quizzes/${quiz.id}?_method=DELETE"
                    onClick="return confirm('Delete: ${quiz.question}')"
-                   class="button">Delete</a>
-             </div>`).join("\n") +
-    `<a href="/quizzes/new" class="button">New Quiz</a>
+                   class="button">Delete</a></td>
+             </div></tr>`).join("\n") +
+
+    `<tr>
+        <td><a href="/quizzes/new" class="button">New Quiz</a></td>
+        </tr>
+    </table>
     </body>
     </html>`;
 
@@ -238,7 +243,7 @@ const editController = (req, res, next) => {
     const id = Number(req.params.id);
     if (Number.isNaN(id)) return next(`id "${req.params.id}" is not a number.`);
 
-    Quiz.findbyPk(id)
+    Quiz.findByPk(id)
         .then(quiz => {
             if(quiz){
                 res.send(editView(quiz));
@@ -255,7 +260,7 @@ const updateController = (req, res, next) => {
     const id = Number(req.params.id);
     if (Number.isNaN(id)) return next(`id "${req.params.id}" is not a number.`);
 
-    Quiz.findbyPk(id)
+    Quiz.findByPk(id)
         .then(quiz => {
             if(quiz){
                 let {question, answer} = req.body;
@@ -277,7 +282,7 @@ const destroyController = (req, res, next) => {
     const id = Number(req.params.id);
     if (Number.isNaN(id)) return next(`id "${req.params.id}" is not a number.`);
 
-    Quiz.findbyPk(id)
+    Quiz.findByPk(id)
         .then(quiz=>{
             if (quiz){
                 quiz.destroy().then(() => {
