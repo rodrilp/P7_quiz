@@ -245,6 +245,19 @@ const updateController = (req, res, next) => {
 // DELETE /quizzes/:id
 const destroyController = (req, res, next) => {
     // .... introducir código
+    const id = Number(req.params.id);
+    if (Number.isNaN(id)) return next(`id "${req.params.id}" is not a number.`);
+
+    Quiz.findbyPk(id)
+        .then(quiz=>{
+            if (quiz){
+                quiz.destroy().then(() => {
+                    res.redirect('/quizzes')
+                });
+            } else {
+                next(new Error(`Quiz ${id} no existe.`))
+            }
+        });
 };
 
 
