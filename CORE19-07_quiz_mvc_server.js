@@ -150,6 +150,25 @@ placeholder="Answer" />
 // View to show a form to edit the given quiz.
 const editView = (quiz) => {
     // .... introducir código
+    return `<!doctype html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <title>P7: Quiz</title>
+        ${style}
+    </head>
+    <body>
+    <h1>Edit Quiz ${quiz.id}</h1>
+    <form method="POST" action="/quizzes">
+            Question: <input type="text" name="question" value="${quiz.question}"
+placeholder="Question" /> <br />
+            Answer: <input type="text" name="answer"   value="${quiz.answer}"  
+placeholder="Answer" />
+            <input type="submit" class="button" value="Edit" /> <br />
+        </form>
+        <a href="/quizzes" class="button">Go back</a>
+    </body>
+    </html>`;
 };
 
 
