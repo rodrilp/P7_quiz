@@ -237,9 +237,11 @@ const editController = (req, res, next) => {
     const id = Number(req.params.id);
     if (Number.isNaN(id)) return next(`id "${req.params.id}" is not a number.`);
 
+    const response = req.query.response || "";
+
     Quiz.findByPk(id)
         .then(quiz => quiz ?
-            res.send(editView(quiz)) :
+            res.send(editView(quiz,response)) :
             next(new Error(`Quiz ${id} not found.`))
         )
         .catch(next);
