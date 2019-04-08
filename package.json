@@ -23,7 +23,6 @@
     "method-override": "^3.0.0",
     "mocha": "^5.2.0",
     "sequelize": "^4.32.7",
-    "sqlite": "^3.0.3",
     "sqlite3": "^4.0.4",
     "underscore": "^1.8.3",
     "zombie": "^6.1.2"
